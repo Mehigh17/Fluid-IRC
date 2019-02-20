@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace FluidIrc.ViewModels
+namespace FluidIrc.Commands
 {
     public class RelayCommand : ICommand
     {
@@ -26,5 +26,6 @@ namespace FluidIrc.ViewModels
         }
 
         public event EventHandler CanExecuteChanged;
+
     }
 }
