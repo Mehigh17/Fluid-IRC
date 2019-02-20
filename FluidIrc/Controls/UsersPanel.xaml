@@ -1,0 +1,30 @@
+﻿<UserControl
+    x:Class="FluidIrc.Controls.UsersPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:FluidIrc.ViewModels"
+    mc:Ignorable="d"
+    d:DesignHeight="600"
+    d:DesignWidth="300"
+    d:DataContext="{d:DesignInstance vm:UsersPanelViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Connected Users" HorizontalAlignment="Center" Margin="3" FontSize="20" />
+
+        <ScrollViewer Grid.Row="1">
+            <ListView ItemsSource="{Binding ConnectedUsers}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <TextBlock Text="{x:Bind}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
