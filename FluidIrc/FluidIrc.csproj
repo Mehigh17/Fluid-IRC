@@ -122,8 +122,12 @@
     <Compile Include="Controls\ChannelMessageBox.xaml.cs">
       <DependentUpon>ChannelMessageBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MessageBar.xaml.cs">
+      <DependentUpon>MessageBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\ChannelMessageBoxViewModel.cs" />
+    <Compile Include="ViewModels\MessageBarViewModel.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
@@ -153,6 +157,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\ChannelMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MessageBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
