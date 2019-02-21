@@ -135,10 +135,8 @@
     <Compile Include="ViewModels\ChannelMessageBoxViewModel.cs" />
     <Compile Include="ViewModels\HomePageViewModel.cs" />
     <Compile Include="ViewModels\MessageBarViewModel.cs" />
-    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="ViewModels\ServerCardViewModel.cs" />
     <Compile Include="ViewModels\UsersPanelViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
@@ -195,6 +193,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.3</Version>
+    </PackageReference>
+    <PackageReference Include="Prism.Unity.Windows">
+      <Version>7.0.0.336-pre</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
