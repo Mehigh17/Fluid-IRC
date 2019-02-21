@@ -1,0 +1,33 @@
+﻿<prismMvvm:SessionStateAwarePage
+    x:Class="FluidIrc.AppShell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:FluidIrc.ViewModels"
+    xmlns:prismMvvm="using:Prism.Windows.Mvvm"
+    prismMvvm:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance vm:AppShellViewModel}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <DataTemplate x:Key="MenuItemTemplate" x:DataType="vm:NavigationItemViewModel">
+            <NavigationViewItem Content="{Binding Label}">
+                <NavigationViewItem.Icon>
+                    <SymbolIcon Symbol="{Binding FontIcon}"/>
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
+        <NavigationView MenuItemsSource="{Binding NavItems}" 
+                        MenuItemTemplate="{StaticResource MenuItemTemplate}" 
+                        ItemInvoked="NavigationView_OnItemInvoked"
+                        IsBackButtonVisible="Collapsed">
+            <Frame x:Name="ContentFrame" />
+        </NavigationView>
+
+    </Grid>
+</prismMvvm:SessionStateAwarePage>
