@@ -125,6 +125,9 @@
     <Compile Include="Controls\MessageBar.xaml.cs">
       <DependentUpon>MessageBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ServerCard.xaml.cs">
+      <DependentUpon>ServerCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\UsersPanel.xaml.cs">
       <DependentUpon>UsersPanel.xaml</DependentUpon>
     </Compile>
@@ -132,6 +135,7 @@
     <Compile Include="ViewModels\ChannelMessageBoxViewModel.cs" />
     <Compile Include="ViewModels\MessageBarViewModel.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="ViewModels\ServerCardViewModel.cs" />
     <Compile Include="ViewModels\UsersPanelViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     </Compile>
@@ -163,6 +167,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\MessageBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ServerCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
