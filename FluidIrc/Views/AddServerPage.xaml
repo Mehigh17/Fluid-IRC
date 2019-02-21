@@ -1,0 +1,25 @@
+﻿<prismMvvm:SessionStateAwarePage
+    x:Class="FluidIrc.Views.AddServerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:FluidIrc.Controls"
+    xmlns:vm="using:FluidIrc.ViewModels"
+    xmlns:prismMvvm="using:Prism.Windows.Mvvm"
+    prismMvvm:ViewModelLocator.AutoWireViewModel="True"
+    d:DataContext="{d:DesignInstance vm:AddServerViewModel}"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid HorizontalAlignment="Left" Padding="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <controls:InputServerBox Grid.Row="0" MaxWidth="200" DataContext="{Binding InputServerBoxViewModel}"/>
+        <Button Grid.Row="2" HorizontalAlignment="Stretch" Content="Add Server" Command="{Binding AddCommand}"/>
+    </Grid>
+</prismMvvm:SessionStateAwarePage>

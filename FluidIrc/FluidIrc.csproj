@@ -122,6 +122,9 @@
     <Compile Include="Controls\ChannelMessageBox.xaml.cs">
       <DependentUpon>ChannelMessageBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\InputServerBox.xaml.cs">
+      <DependentUpon>InputServerBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MessageBar.xaml.cs">
       <DependentUpon>MessageBar.xaml</DependentUpon>
     </Compile>
@@ -132,11 +135,16 @@
       <DependentUpon>UsersPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ViewModels\AddServerViewModel.cs" />
     <Compile Include="ViewModels\ChannelMessageBoxViewModel.cs" />
     <Compile Include="ViewModels\HomePageViewModel.cs" />
+    <Compile Include="ViewModels\InputServerBoxViewModel.cs" />
     <Compile Include="ViewModels\MessageBarViewModel.cs" />
     <Compile Include="ViewModels\ServerCardViewModel.cs" />
     <Compile Include="ViewModels\UsersPanelViewModel.cs" />
+    <Compile Include="Views\AddServerPage.xaml.cs">
+      <DependentUpon>AddServerPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
@@ -170,6 +178,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\InputServerBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\MessageBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -179,6 +191,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\UsersPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddServerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
