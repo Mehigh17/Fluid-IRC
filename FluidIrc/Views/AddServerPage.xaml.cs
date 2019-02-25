@@ -12,8 +12,9 @@ namespace FluidIrc.Views
     /// </summary>
     public sealed partial class AddServerPage : SessionStateAwarePage, INotifyPropertyChanged
     {
+
+        public AddServerPageViewModel ConcreteDataContext => DataContext as AddServerPageViewModel;
         public event PropertyChangedEventHandler PropertyChanged;
-        public AddServerViewModel ConcreteDataContext => DataContext as AddServerViewModel;
 
         public AddServerPage()
         {

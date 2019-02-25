@@ -8,18 +8,21 @@
     xmlns:vm="using:FluidIrc.ViewModels"
     xmlns:prismMvvm="using:Prism.Windows.Mvvm"
     prismMvvm:ViewModelLocator.AutoWireViewModel="True"
-    d:DataContext="{d:DesignInstance vm:AddServerViewModel}"
     mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance vm:AddServerPageViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid HorizontalAlignment="Left" Padding="15">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="15"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <controls:InputServerBox Grid.Row="0" MaxWidth="200" DataContext="{Binding InputServerBoxViewModel}"/>
-        <Button Grid.Row="2" HorizontalAlignment="Stretch" Content="Add Server" Command="{Binding AddCommand}"/>
+        <controls:InputServerBox Grid.Row="0" DataContext="{Binding InputServerBoxViewModel}" />
+        <NavigationViewItemSeparator Grid.Row="1" />
+        <Button Grid.Row="2" HorizontalAlignment="Stretch" Content="Add Server" Command="{Binding AddCommand}" />
+        <TextBlock Grid.Row="3" Margin="0,0,0,5" Text="{Binding StatusMessage}" />
     </Grid>
 </prismMvvm:SessionStateAwarePage>
