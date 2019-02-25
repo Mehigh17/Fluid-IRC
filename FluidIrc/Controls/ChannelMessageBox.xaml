@@ -4,21 +4,55 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="using:FluidIrc.ViewModels"
+    xmlns:vm="using:FluidIrc.ViewModels.ChannelBox"
+    xmlns:selectors="using:FluidIrc.TemplateSelectors"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
     d:DataContext="{d:DesignInstance vm:ChannelMessageBoxViewModel}">
 
+    <UserControl.Resources>
+        <DataTemplate x:Key="ChatMessageTemplate"
+            x:DataType="vm:ChatMessageViewModel">
+            <StackPanel Orientation="Vertical">
+                <TextBlock>
+                    <Run Text="{x:Bind SenderName}" Foreground="{StaticResource DefaultTextForegroundThemeBrush}"/>
+                    <Run Text="at" Foreground="SlateGray"/>
+                    <Run Text="{x:Bind ReceivedAt}" Foreground="SlateGray"/>
+                </TextBlock>
+                <TextBlock Text="{x:Bind Message}"
+                           TextWrapping="Wrap"
+                           IsTextSelectionEnabled="True"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="NoticeDataTemplate"
+                      x:DataType="vm:NoticeViewModel">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Foreground="{ThemeResource SystemControlForegroundAccentBrush}">
+                    <Run Text="Received at "/>
+                    <Run Text="{x:Bind ReceivedAt}"/>
+                </TextBlock>
+                <TextBlock Text="{x:Bind Notice}"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <selectors:ChannelMessageDataTemplateSelector x:Key="ChannelMessageDataTemplateSelector"
+                                                      ChatMessageDataTemplate="{StaticResource ChatMessageTemplate}"
+                                                      NoticeDataTemplate="{StaticResource NoticeDataTemplate}">
+        </selectors:ChannelMessageDataTemplateSelector>
+    </UserControl.Resources>
+
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <ListView ItemsSource="{Binding Messages}">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="x:String">
-                        <TextBlock Text="{x:Bind}" HorizontalAlignment="Stretch" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </ScrollViewer>
+        <ListView ItemsSource="{Binding Messages}"
+                  ItemTemplateSelector="{StaticResource ChannelMessageDataTemplateSelector}">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel Orientation="Vertical"
+                                     ItemsUpdatingScrollMode="KeepLastItemInView">
+                    </ItemsStackPanel>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
     </Grid>
 </UserControl>

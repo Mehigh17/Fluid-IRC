@@ -6,7 +6,7 @@ namespace FluidIrc.Controls
     {
         public ChannelMessageBox()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }
