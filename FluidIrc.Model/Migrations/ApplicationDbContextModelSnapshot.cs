@@ -29,7 +29,11 @@ namespace FluidIrc.Model.Migrations
 
                     b.Property<bool>("SslEnabled");
 
+                    b.Property<Guid?>("UserProfileId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserProfileId");
 
                     b.ToTable("Servers");
                 });
@@ -44,6 +48,13 @@ namespace FluidIrc.Model.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserProfiles");
+                });
+
+            modelBuilder.Entity("FluidIrc.Model.Models.Server", b =>
+                {
+                    b.HasOne("FluidIrc.Model.Models.UserProfile", "UserProfile")
+                        .WithMany()
+                        .HasForeignKey("UserProfileId");
                 });
 #pragma warning restore 612, 618
         }

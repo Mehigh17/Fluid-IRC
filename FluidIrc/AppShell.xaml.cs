@@ -1,4 +1,5 @@
 ﻿using FluidIrc.ViewModels;
+using FluidIrc.ViewModels.Navigation;
 using Prism.Windows.Mvvm;
 using System.ComponentModel;
 using Windows.UI.Xaml;
@@ -44,9 +45,17 @@ namespace FluidIrc
             }
             else
             {
-                var item = (NavigationViewItem) args.InvokedItemContainer;
-                var itemVm = item.DataContext as NavigationItemViewModel;
-                itemVm?.Command.Execute(null);
+                if (args.InvokedItemContainer is NavigationViewItem item)
+                {
+                    if (item.DataContext is NavigationGotoItemViewModel gotoVm)
+                    {
+                        gotoVm.Command?.Execute(null);
+                    }
+                    else if (item.DataContext is NavigationChannelViewModel channelVm)
+                    {
+                        channelVm.Command?.Execute(null);
+                    }
+                }
             }
         }
     }

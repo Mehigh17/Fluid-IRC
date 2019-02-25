@@ -6,7 +6,7 @@ namespace FluidIrc.Controls
     {
         public MessageBar()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

@@ -5,6 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:FluidIrc.ViewModels"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d"
     d:DesignHeight="100"
     d:DesignWidth="400"
@@ -15,8 +17,20 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        
-        <TextBox Grid.Column="0" PlaceholderText="Type in your message..." Text="{Binding CommandText, Mode=TwoWay}" />
-        <Button Grid.Column="1" Content="Send" Command="{Binding SendCommand}"/>
+
+        <AutoSuggestBox Grid.Column="0"
+                        PlaceholderText="Type in your message... (Enter to send)"
+                        Text="{Binding CommandText, Mode=TwoWay}">
+            <AutoSuggestBox.QueryIcon>
+                <SymbolIcon Symbol="Send"/>
+            </AutoSuggestBox.QueryIcon>
+            <interactivity:Interaction.Behaviors>
+                <core:EventTriggerBehavior EventName="QuerySubmitted">
+                    <core:InvokeCommandAction
+                        Command="{Binding SendCommand}"/>
+                </core:EventTriggerBehavior>
+            </interactivity:Interaction.Behaviors>
+        </AutoSuggestBox>
+
     </Grid>
 </UserControl>

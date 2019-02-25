@@ -17,14 +17,12 @@
 
         <TextBlock Text="Connected Users" HorizontalAlignment="Center" Margin="3" FontSize="20" />
 
-        <ScrollViewer Grid.Row="1">
-            <ListView ItemsSource="{Binding ConnectedUsers}">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="x:String">
-                        <TextBlock Text="{x:Bind}"/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </ScrollViewer>
+        <ListView Grid.Row="1" ItemsSource="{Binding ConnectedUsers}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="x:String">
+                    <TextBlock Text="{x:Bind}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </UserControl>

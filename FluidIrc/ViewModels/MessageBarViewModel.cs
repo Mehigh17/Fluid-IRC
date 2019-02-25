@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using Prism.Windows.Mvvm;
+using System.Windows.Input;
 
 namespace FluidIrc.ViewModels
 {
@@ -9,14 +10,14 @@ namespace FluidIrc.ViewModels
         public string CommandText
         {
             get => _commandText;
-            set => Set(ref _commandText, value);
+            set => SetProperty(ref _commandText, value);
         }
 
-        public ICommand SendCommand { get; set; }
-
-        public MessageBarViewModel()
+        private ICommand _sendCommand;
+        public ICommand SendCommand
         {
-
+            get => _sendCommand;
+            set => SetProperty(ref _sendCommand, value);
         }
 
     }
