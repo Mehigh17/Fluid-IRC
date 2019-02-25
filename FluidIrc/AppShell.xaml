@@ -5,28 +5,56 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:FluidIrc.ViewModels"
+    xmlns:navVm="using:FluidIrc.ViewModels.Navigation"
+    xmlns:selectors="using:FluidIrc.TemplateSelectors"
     xmlns:prismMvvm="using:Prism.Windows.Mvvm"
     prismMvvm:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance vm:AppShellViewModel}"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    d:DataContext="{d:DesignInstance vm:AppShellViewModel}">
 
     <Page.Resources>
-        <DataTemplate x:Key="MenuItemTemplate" x:DataType="vm:NavigationItemViewModel">
-            <NavigationViewItem Content="{Binding Label}">
-                <NavigationViewItem.Icon>
-                    <SymbolIcon Symbol="{Binding FontIcon}"/>
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-        </DataTemplate>
+        <ResourceDictionary>
+            <DataTemplate x:Key="GotoItemTemplate"
+                          x:DataType="navVm:NavigationGotoItemViewModel">
+                <NavigationViewItem Content="{x:Bind Label}">
+                    <NavigationViewItem.Icon>
+                        <SymbolIcon Symbol="{x:Bind FontIcon}"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </DataTemplate>
+
+            <DataTemplate x:Key="ChannelItemTemplate"
+                          x:DataType="navVm:NavigationChannelViewModel">
+                <NavigationViewItem Content="{x:Bind Label}">
+                    <NavigationViewItem.Icon>
+                        <SymbolIcon Symbol="Message"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </DataTemplate>
+
+            <DataTemplate x:Key="HeaderItemTemplate"
+                          x:DataType="navVm:NavigationHeaderViewModel">
+                <NavigationViewItemHeader Content="{x:Bind Label}" />
+            </DataTemplate>
+
+            <selectors:NavViewDataTemplateSelector x:Key="NavViewDataTemplateSelector"
+                                                   GotoItemDataTemplate="{StaticResource GotoItemTemplate}"
+                                                   HeaderDataTemplate="{StaticResource HeaderItemTemplate}"
+                                                   ChannelDataTemplate="{StaticResource ChannelItemTemplate}"/>
+        </ResourceDictionary>
     </Page.Resources>
 
     <Grid>
-        <NavigationView MenuItemsSource="{Binding NavItems}" 
-                        MenuItemTemplate="{StaticResource MenuItemTemplate}" 
+        <NavigationView Name="NavView"
+                        MenuItemsSource="{Binding NavItems}" 
+                        MenuItemTemplateSelector="{StaticResource NavViewDataTemplateSelector}"
                         ItemInvoked="NavigationView_OnItemInvoked"
-                        IsBackButtonVisible="Collapsed">
+                        IsBackButtonVisible="Collapsed"
+                        IsBackEnabled="False"
+                        Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+
             <Frame x:Name="ContentFrame" />
+
         </NavigationView>
 
     </Grid>
