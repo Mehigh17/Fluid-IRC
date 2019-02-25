@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FluidIrc.Model.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190222000855_Initial")]
+    [Migration("20190224222802_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,11 @@ namespace FluidIrc.Model.Migrations
 
                     b.Property<bool>("SslEnabled");
 
+                    b.Property<Guid?>("UserProfileId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserProfileId");
 
                     b.ToTable("Servers");
                 });
@@ -46,6 +50,13 @@ namespace FluidIrc.Model.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserProfiles");
+                });
+
+            modelBuilder.Entity("FluidIrc.Model.Models.Server", b =>
+                {
+                    b.HasOne("FluidIrc.Model.Models.UserProfile", "UserProfile")
+                        .WithMany()
+                        .HasForeignKey("UserProfileId");
                 });
 #pragma warning restore 612, 618
         }
