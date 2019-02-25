@@ -14,13 +14,16 @@
     <UserControl.Resources>
         <DataTemplate x:Key="ChatMessageTemplate"
             x:DataType="vm:ChatMessageViewModel">
-            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical"
+                        Margin="0,5,0,5">
                 <TextBlock>
-                    <Run Text="{x:Bind SenderName}" Foreground="{StaticResource DefaultTextForegroundThemeBrush}"/>
+                    <Run Text="{x:Bind SenderName}" 
+                         Foreground="{StaticResource DefaultTextForegroundThemeBrush}"/>
                     <Run Text="at" Foreground="SlateGray"/>
-                    <Run Text="{x:Bind ReceivedAt}" Foreground="SlateGray"/>
+                    <Run Text="{x:Bind ReceivedAt}" 
+                         Foreground="SlateGray"/>
                 </TextBlock>
-                <TextBlock Text="{x:Bind Message}"
+                <TextBlock Text="{x:Bind Message, Mode=TwoWay}"
                            TextWrapping="Wrap"
                            IsTextSelectionEnabled="True"/>
             </StackPanel>
@@ -28,12 +31,14 @@
 
         <DataTemplate x:Key="NoticeDataTemplate"
                       x:DataType="vm:NoticeViewModel">
-            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical"
+                        Margin="0,5,0,5">
                 <TextBlock Foreground="{ThemeResource SystemControlForegroundAccentBrush}">
                     <Run Text="Received at "/>
                     <Run Text="{x:Bind ReceivedAt}"/>
                 </TextBlock>
-                <TextBlock Text="{x:Bind Notice}"/>
+                <TextBlock Text="{x:Bind Notice, Mode=TwoWay}"
+                           TextWrapping="Wrap"/>
             </StackPanel>
         </DataTemplate>
 
