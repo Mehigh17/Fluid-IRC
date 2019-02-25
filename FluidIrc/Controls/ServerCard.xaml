@@ -7,17 +7,30 @@
     xmlns:vm="using:FluidIrc.ViewModels"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance vm:ServerCardViewModel}"
-    d:DesignHeight="75"
-    d:DesignWidth="100">
+    d:DesignHeight="125"
+    d:DesignWidth="200">
 
-    <Grid Padding="15">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <StackPanel Orientation="Vertical" 
+                Padding="15" 
+                HorizontalAlignment="Stretch"
+                Background="{ThemeResource ServerCardBackground}">
 
-        <TextBlock Grid.Row="0" Text="{Binding ServerName}" FontSize="24" />
-        <TextBlock Grid.Row="1" Text="{Binding ServerAddress}" FontSize="12" />
+        <TextBlock Text="{Binding ServerName}" FontSize="24" />
+        <TextBlock Text="{Binding ServerAddress}" FontSize="12" Margin="0,0,0,10" FontStyle="Italic"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-    </Grid>
+            <Button Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Join" Command="{Binding Command}"/>
+            <Button Grid.Column="1" Command="{Binding DeleteCommand}">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <SymbolIcon Symbol="Delete"/>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+        </Grid>
+    </StackPanel>
 </UserControl>
