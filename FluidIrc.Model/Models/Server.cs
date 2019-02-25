@@ -6,8 +6,7 @@ namespace FluidIrc.Model.Models
     public class Server
     {
 
-        [Key]
-        public Guid Id { get; set; }
+        [Key] public Guid Id { get; set; }
 
         public string Name { get; set; }
 
@@ -16,6 +15,8 @@ namespace FluidIrc.Model.Models
         public int Port { get; set; }
 
         public bool SslEnabled { get; set; }
+
+        public UserProfile UserProfile { get; set; }
 
     }
 }
