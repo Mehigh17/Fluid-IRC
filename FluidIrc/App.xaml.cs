@@ -1,4 +1,9 @@
-﻿using Prism.Unity.Windows;
+﻿using FluidIrc.Model.Data;
+using FluidIrc.Model.Providers;
+using FluidIrc.Services;
+using FluidIrc.ViewModels;
+using Microsoft.EntityFrameworkCore;
+using Prism.Unity.Windows;
 using System.Threading.Tasks;
 using Unity;
 using Windows.ApplicationModel.Activation;
@@ -27,7 +32,20 @@ namespace FluidIrc
         protected override Task OnInitializeAsync(IActivatedEventArgs args)
         {
             //Container.RegisterInstance<IResourceLoader>(new ResourceLoaderAdapter(new ResourceLoader()));
-            return base.OnInitializeAsync(args);
+            Container.RegisterSingleton<IApplicationContextFactory, ApplicationContextFactory>();
+            Container.RegisterSingleton<IIrcClient, FluidIrcClient>();
+            Container.RegisterSingleton<IDataProvider, DataProvider>();
+            Container.RegisterInstance(Container.Resolve<ChannelPageViewModel>());
+
+            var contextFactory = Container.Resolve<IApplicationContextFactory>();
+            using (var context = contextFactory.CreateApplicationContext())
+            {
+                if (context is ApplicationDbContext appContext)
+                    appContext.Database.Migrate();
+            }
+
+            //return base.OnInitializeAsync(args);
+            return Task.FromResult(true);
         }
 
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
