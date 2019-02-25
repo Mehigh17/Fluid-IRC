@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluidIrc.Model", "FluidIrc.Model\FluidIrc.Model.csproj", "{3523B83C-34F6-400A-949F-91ECD8CBF183}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluidIrc.Model", "FluidIrc.Model\FluidIrc.Model.csproj", "{3523B83C-34F6-400A-949F-91ECD8CBF183}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluidIrc.Tooling", "FluidIrc.Tooling\FluidIrc.Tooling.csproj", "{CC414CD8-9C63-49FF-AC72-D9F8353F4AE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluidIrc.Tooling", "FluidIrc.Tooling\FluidIrc.Tooling.csproj", "{CC414CD8-9C63-49FF-AC72-D9F8353F4AE4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluidIrc", "FluidIrc\FluidIrc.csproj", "{7C377045-96DF-45B4-BDA8-185AB0EAF2E7}"
 EndProject
