@@ -134,16 +134,34 @@
     <Compile Include="Controls\UsersPanel.xaml.cs">
       <DependentUpon>UsersPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PageTokens.cs" />
+    <Compile Include="Services\FluidIrcClient.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="ViewModels\AddServerViewModel.cs" />
-    <Compile Include="ViewModels\ChannelMessageBoxViewModel.cs" />
+    <Compile Include="Services\IIrcClient.cs" />
+    <Compile Include="TemplateSelectors\NavViewDataTemplateSelector.cs" />
+    <Compile Include="ViewModels\AddServerPageViewModel.cs" />
+    <Compile Include="ViewModels\ChannelBox\ChannelMessageBoxViewModel.cs" />
+    <Compile Include="TemplateSelectors\ChannelMessageDataTemplateSelector.cs" />
+    <Compile Include="ViewModels\ChannelBox\ChannelMessageViewModel.cs" />
+    <Compile Include="ViewModels\ChannelPageViewModel.cs" />
+    <Compile Include="ViewModels\ChannelBox\ChatMessageViewModel.cs" />
+    <Compile Include="ViewModels\ExtendedViewModelBase.cs" />
     <Compile Include="ViewModels\HomePageViewModel.cs" />
     <Compile Include="ViewModels\InputServerBoxViewModel.cs" />
     <Compile Include="ViewModels\MessageBarViewModel.cs" />
+    <Compile Include="ViewModels\Navigation\NavigationChannelViewModel.cs" />
+    <Compile Include="ViewModels\Navigation\NavigationGotoItemViewModel.cs" />
+    <Compile Include="ViewModels\Navigation\NavigationHeaderViewModel.cs" />
+    <Compile Include="ViewModels\Navigation\NavigationItemViewModel.cs" />
+    <Compile Include="ViewModels\AppShellViewModel.cs" />
+    <Compile Include="ViewModels\ChannelBox\NoticeViewModel.cs" />
     <Compile Include="ViewModels\ServerCardViewModel.cs" />
     <Compile Include="ViewModels\UsersPanelViewModel.cs" />
     <Compile Include="Views\AddServerPage.xaml.cs">
       <DependentUpon>AddServerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChannelPage.xaml.cs">
+      <DependentUpon>ChannelPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
@@ -160,14 +178,43 @@
     <None Include="FluidIrc_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Properties\Default.rd.xml" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\BadgeLogo.scale-100.png" />
+    <Content Include="Assets\BadgeLogo.scale-200.png" />
+    <Content Include="Assets\BadgeLogo.scale-400.png" />
+    <Content Include="Assets\LargeTile.scale-100.png" />
+    <Content Include="Assets\LargeTile.scale-200.png" />
+    <Content Include="Assets\LargeTile.scale-400.png" />
+    <Content Include="Assets\SmallTile.scale-100.png" />
+    <Content Include="Assets\SmallTile.scale-200.png" />
+    <Content Include="Assets\SmallTile.scale-400.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-24.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-32.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-48.png" />
+    <Content Include="Assets\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\Square44x44Logo.scale-125.png" />
+    <Content Include="Assets\Square44x44Logo.scale-150.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-32.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Assets\StoreLogo.scale-200.png" />
+    <Content Include="Assets\StoreLogo.scale-400.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -198,30 +245,41 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ChannelPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AppShell.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="IrcDotNet">
-      <Version>0.7.0</Version>
+      <Version>0.7.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore">
+      <Version>2.2.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.3</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
+      <Version>5.1.0</Version>
     </PackageReference>
     <PackageReference Include="Prism.Unity.Windows">
       <Version>7.0.0.336-pre</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controls\" />
-    <Folder Include="Models\" />
-    <Folder Include="Services\" />
-    <Folder Include="ViewModels\" />
+    <ProjectReference Include="..\FluidIrc.Model\FluidIrc.Model.csproj">
+      <Project>{3523b83c-34f6-400a-949f-91ecd8cbf183}</Project>
+      <Name>FluidIrc.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
