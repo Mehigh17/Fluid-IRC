@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="5a0dffe9-d4e7-4500-8cd0-e42bcc31f58b" Publisher="CN=stanm" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="5a0dffe9-d4e7-4500-8cd0-e42bcc31f58b" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="30605StanMihai.FluidIRC" Publisher="CN=E5DBE6A6-FF6F-468E-902A-95B7563F4AF9" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="26c63702-ccae-454a-b6de-fe3dbecd648b" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>FluidIrc</DisplayName>
-    <PublisherDisplayName>Mihai Stan</PublisherDisplayName>
+    <DisplayName>Fluid IRC</DisplayName>
+    <PublisherDisplayName>Stan Mihai</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
