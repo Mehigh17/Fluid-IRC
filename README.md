@@ -1,18 +1,22 @@
-<center>
-    <br/>
+<h3 align="center">
     <img src="./resources/logo.png" height=100>
     <p><b>Fluid IRC is an UWP based irc client made with the sole purpose of offering a more modernized feel of the irc world.</b></p>
-    <br/>
+</h3>
+
+<p align="center">
     <a href="#description">Description</a> •
     <a href="#features">Features</a> •
     <a href="#how-to-use">How To Use</a> •
     <a href="#license">License</a>
+</p>
+
+<p align="center">
     <br/>
     <img src="./resources/sbs_view.png" height=400>
     <br/>
     <img src="https://img.shields.io/badge/version-v1.0.0-orange.svg">
     <img src="https://img.shields.io/badge/freenode-%23fluidirc-blue.svg">
-</center>
+</p>
 
 ## Description
 
