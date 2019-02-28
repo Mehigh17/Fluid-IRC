@@ -12,10 +12,14 @@
 
 <p align="center">
     <br/>
-    <img src="./resources/sbs_view.png" height=400>
+    <img src="./resources/sbs_view.png" height=400 width=800>
     <br/>
     <img src="https://img.shields.io/badge/version-v1.0.0-orange.svg">
     <img src="https://img.shields.io/badge/freenode-%23fluidirc-blue.svg">
+</p>
+
+<p align="center">
+    <a href='//www.microsoft.com/store/apps/9N4VR5JKKJHD?ocid=badge'><img src='https://assets.windowsphone.com/85864462-9c82-451e-9355-a3d5f874397a/English_get-it-from-MS_InvariantCulture_Default.png' alt='English badge' style='width: 284px; height: 104px;'/></a>
 </p>
 
 ## Description
