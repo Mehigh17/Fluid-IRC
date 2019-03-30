@@ -292,7 +292,15 @@ namespace FluidIrc.ViewModels
             {
                 ExecuteOnUiThread(() =>
                 {
-                    _navService.Navigate(PageTokens.Home.ToString(), null);
+                    if(_navService.CanGoBack())
+                    {
+                        _navService.GoBack();
+                    }
+                    else
+                    {
+                        _navService.ClearHistory();
+                        _navService.Navigate(PageTokens.Home.ToString(), null);
+                    }
                 });
             }
         }
