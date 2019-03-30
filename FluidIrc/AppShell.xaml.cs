@@ -1,7 +1,13 @@
 ﻿using FluidIrc.ViewModels;
 using FluidIrc.ViewModels.Navigation;
+using FluidIrc.Views;
+using Prism.Events;
 using Prism.Windows.Mvvm;
+using Prism.Windows.Navigation;
+using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -15,12 +21,19 @@ namespace FluidIrc
     public sealed partial class AppShell : SessionStateAwarePage, INotifyPropertyChanged
     {
 
-        public AppShell(AppShellViewModel viewModel)
+        private readonly IEventAggregator _eventAggregator;
+        private readonly INavigationService _navService;
+
+        public AppShell(AppShellViewModel viewModel, INavigationService navService, IEventAggregator eventAggregator)
         {
+            _navService = navService ?? throw new ArgumentNullException(nameof(navService));
+            _eventAggregator = eventAggregator ?? throw new ArgumentNullException(nameof(eventAggregator));
+
             InitializeComponent();
             DataContextChanged += OnDataContextChanged;
+            DataContext = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
 
-            DataContext = viewModel;
+            eventAggregator.GetEvent<NavigationStateChangedEvent>().Subscribe(OnNavigationStateChanged);
         }
 
         public void SetContentFrame(Frame frame)
@@ -29,6 +42,24 @@ namespace FluidIrc
         }
 
         public AppShellViewModel ConcreteDataContext => DataContext as AppShellViewModel;
+
+        private void OnNavigationStateChanged(NavigationStateChangedEventArgs args)
+        {
+            var source = NavView.MenuItemsSource as ObservableCollection<NavigationItemViewModel>;
+            if (args.Sender.Content is HomePage)
+            {
+                NavView.SelectedItem = source[0];
+            }
+            else if(args.Sender.Content is AddServerPage)
+            {
+                NavView.SelectedItem = source[1];
+            }
+            else if(args.Sender.Content is ChannelPage p)
+            {
+                var vm = p.ConcreteDataContext;
+                NavView.SelectedItem = source.FirstOrDefault(i => i.Label.Equals(vm.CurrentChannelName));
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

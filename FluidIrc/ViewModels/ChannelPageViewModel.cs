@@ -45,6 +45,8 @@ namespace FluidIrc.ViewModels
         private readonly IIrcClient _client;
         private IrcChannel _currentChannel;
 
+        public string CurrentChannelName => _currentChannel.Name;
+
         public ChannelPageViewModel(INavigationService navService, IIrcClient client)
         {
             _navService = navService;
