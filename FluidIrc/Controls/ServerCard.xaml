@@ -13,10 +13,26 @@
     <StackPanel Orientation="Vertical" 
                 Padding="15" 
                 HorizontalAlignment="Stretch"
+                Width="200"
                 Background="{ThemeResource ServerCardBackground}">
 
-        <TextBlock Text="{Binding ServerName}" FontSize="24" />
-        <TextBlock Text="{Binding ServerAddress}" FontSize="12" Margin="0,0,0,10" FontStyle="Italic"/>
+        <Viewbox Stretch="Uniform" 
+                 HorizontalAlignment="Stretch"
+                 Height="35">
+            <TextBlock Text="{Binding ServerName}" 
+                       HorizontalAlignment="Stretch"/>
+        </Viewbox>
+
+        <Viewbox Stretch="Uniform" 
+                 HorizontalAlignment="Stretch"
+                 Height="25">
+            <TextBlock Text="{Binding ServerAddress}"
+                       Margin="0,0,0,10" 
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Stretch"
+                       FontStyle="Italic"/>
+        </Viewbox>
+
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
