@@ -9,6 +9,20 @@
     d:DataContext="{d:DesignInstance vm:UserInfoBoxViewModel}"
     d:DesignHeight="75"
     d:DesignWidth="300">
+    <UserControl.ContextFlyout>
+        <MenuFlyout>
+            <MenuFlyoutItem Text="Ignore">
+                <MenuFlyoutItem.Icon>
+                    <SymbolIcon Symbol="BlockContact"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="Who is">
+                <MenuFlyoutItem.Icon>
+                    <SymbolIcon Symbol="ContactInfo"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+        </MenuFlyout>
+    </UserControl.ContextFlyout>
     <Grid>
         <TextBlock Text="{Binding Nickname}"/>
     </Grid>
