@@ -1,20 +1,13 @@
-﻿using Prism.Windows.Mvvm;
-using System.Windows.Input;
+﻿using Prism.Commands;
+using Prism.Windows.Mvvm;
 
 namespace FluidIrc.ViewModels
 {
     public class MessageBarViewModel : ViewModelBase
     {
 
-        private string _commandText;
-        public string CommandText
-        {
-            get => _commandText;
-            set => SetProperty(ref _commandText, value);
-        }
-
-        private ICommand _sendCommand;
-        public ICommand SendCommand
+        private DelegateCommand<string> _sendCommand;
+        public DelegateCommand<string> SendCommand
         {
             get => _sendCommand;
             set => SetProperty(ref _sendCommand, value);

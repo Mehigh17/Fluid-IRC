@@ -1,4 +1,4 @@
-﻿using FluidIrc.Services;
+using FluidIrc.Services;
 using FluidIrc.ViewModels.ChannelBox;
 using IrcDotNet;
 using IrcDotNet.Collections;
@@ -63,28 +63,25 @@ namespace FluidIrc.ViewModels
             UsersPanelViewModel = new UsersPanelViewModel();
             MessageBarViewModel = new MessageBarViewModel
             {
-                SendCommand = new DelegateCommand(SendCommand)
+                SendCommand = new DelegateCommand<string>(SendCommand)
             };
         }
 
-        private void SendCommand()
+        private void SendCommand(string command)
         {
-            var msg = MessageBarViewModel.CommandText;
-            if (!string.IsNullOrEmpty(msg))
+            if (!string.IsNullOrEmpty(command))
             {
-                if (msg.StartsWith('/'))
+                if (command.StartsWith('/'))
                 {
-                    var cmdArgs = msg.Split(' ');
+                    var cmdArgs = command.Split(' ');
                     _client.SendCommand(cmdArgs[0].Remove(0, 1), cmdArgs.Skip(1).ToArray());
                 }
                 else
                 {
                     var nickName = _client.CurrentServer.UserProfile.Nickname ?? "@You";
-                    _client.SendMessage(_currentChannel, msg);
-                    AddChatMessage(_currentChannel, nickName, msg);
+                    _client.SendMessage(_currentChannel, command);
+                    AddChatMessage(_currentChannel, nickName, command);
                 }
-
-                MessageBarViewModel.CommandText = string.Empty;
             }
         }
 
