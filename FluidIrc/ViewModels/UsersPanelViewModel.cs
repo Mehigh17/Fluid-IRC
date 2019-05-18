@@ -6,7 +6,7 @@ namespace FluidIrc.ViewModels
     public class UsersPanelViewModel : ViewModelBase
     {
 
-        public ObservableCollection<string> ConnectedUsers { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<UserInfoBoxViewModel> ConnectedUsers { get; set; } = new ObservableCollection<UserInfoBoxViewModel>();
 
     }
 }

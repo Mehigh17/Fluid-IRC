@@ -27,7 +27,7 @@ namespace FluidIrc.ViewModels
             get => _usersPanelViewModel;
             set => SetProperty(ref _usersPanelViewModel, value);
         }
-        
+
         private MessageBarViewModel _messageBarViewModel;
         public MessageBarViewModel MessageBarViewModel
         {
@@ -127,7 +127,15 @@ namespace FluidIrc.ViewModels
                 {
                     if (_userPanelInstances.TryGetValue(channel, out var vm))
                     {
-                        ExecuteOnUiThread(() => { vm.ConnectedUsers.Remove(e.ChannelUser.User.NickName); });
+                        ExecuteOnUiThread(() =>
+                        {
+                            var userVm =
+                                vm.ConnectedUsers.FirstOrDefault(u => u.Nickname.Equals(e.ChannelUser.User.NickName));
+                            if (userVm != null)
+                            {
+                                vm.ConnectedUsers.Remove(userVm);
+                            }
+                        });
                     }
 
                     if (_channelBoxInstances.TryGetValue(channel, out var chatVm))
@@ -153,7 +161,11 @@ namespace FluidIrc.ViewModels
                 {
                     ExecuteOnUiThread(() =>
                     {
-                        userVm.ConnectedUsers.Add(e.ChannelUser.User.NickName);
+                        userVm.ConnectedUsers.Add(
+                            new UserInfoBoxViewModel
+                            {
+                                Nickname = e.ChannelUser.User.NickName
+                            });
                     });
                 }
 
@@ -195,7 +207,10 @@ namespace FluidIrc.ViewModels
                 {
                     ExecuteOnUiThread(() =>
                     {
-                        var users = channel.Users.Select(u => u.User.NickName);
+                        var users = channel.Users.Select(u => new UserInfoBoxViewModel
+                        {
+                            Nickname = u.User.NickName
+                        });
                         vm.ConnectedUsers.Clear();
                         vm.ConnectedUsers.AddRange(users);
                     });
@@ -215,9 +230,9 @@ namespace FluidIrc.ViewModels
         {
             if (sender is IrcChannel channel)
             {
-                if(channel.Modes.Count == 0)
+                if (channel.Modes.Count == 0)
                     return;
-                
+
                 var modes = string.Join(' ', channel.Modes);
                 ExecuteOnUiThread(() =>
                 {
@@ -292,7 +307,7 @@ namespace FluidIrc.ViewModels
             {
                 ExecuteOnUiThread(() =>
                 {
-                    if(_navService.CanGoBack())
+                    if (_navService.CanGoBack())
                     {
                         _navService.GoBack();
                     }
@@ -374,7 +389,7 @@ namespace FluidIrc.ViewModels
                 });
             }
         }
-        
+
         public override void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
             base.OnNavigatedTo(e, viewModelState);
