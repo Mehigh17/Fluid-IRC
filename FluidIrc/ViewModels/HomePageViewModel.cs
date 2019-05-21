@@ -18,7 +18,7 @@ namespace FluidIrc.ViewModels
     {
 
         public ObservableCollection<ServerCardViewModel> ServerCards { get; set; } = new ObservableCollection<ServerCardViewModel>();
-        public ChannelMessageBoxViewModel ChannelMessageBoxViewModel { get; set; } = new ChannelMessageBoxViewModel();
+        public MessageBoxViewModel ChannelMessageBoxViewModel { get; set; } = new MessageBoxViewModel();
         public MessageBarViewModel MessageBarViewModel { get; set; } = new MessageBarViewModel();
 
         private bool _showProgress;

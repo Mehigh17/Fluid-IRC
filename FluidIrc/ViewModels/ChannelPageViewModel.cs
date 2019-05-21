@@ -1,7 +1,6 @@
-using FluidIrc.Services;
+﻿using FluidIrc.Services;
 using FluidIrc.ViewModels.ChannelBox;
 using IrcDotNet;
-using IrcDotNet.Collections;
 using Prism.Commands;
 using Prism.Windows.Navigation;
 using System;
@@ -59,8 +58,6 @@ namespace FluidIrc.ViewModels
             _client.WhoReplyReceived += ClientOnWhoReplyReceived;
             _client.WhoWasReplyReceived += ClientOnWhoIsReplyReceived;
 
-            ChannelMessageBoxViewModel = new ChannelMessageBoxViewModel();
-            UsersPanelViewModel = new UsersPanelViewModel();
             MessageBarViewModel = new MessageBarViewModel
             {
                 SendCommand = new DelegateCommand<string>(SendCommand)
@@ -80,204 +77,22 @@ namespace FluidIrc.ViewModels
                 {
                     var nickName = _client.CurrentServer.UserProfile.Nickname ?? "@You";
                     _client.SendMessage(_currentChannel, command);
-                    AddChatMessage(_currentChannel, nickName, command);
+                    if (_channelBoxInstances.TryGetValue(_currentChannel, out var vm))
+                    {
+                        vm.AddUserMessage(nickName, command);
+                    }
                 }
-            }
-        }
-
-        private void AddChatMessage(IrcChannel channel, string sender, string message)
-        {
-            if (_channelBoxInstances.TryGetValue(channel, out var vm))
-            {
-                ExecuteOnUiThread(() =>
-                {
-                    if (vm.Messages.LastOrDefault() is ChatMessageViewModel msg
-                        && msg.SenderName.Equals(sender, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        var msgString = new StringBuilder(msg.Message)
-                            .AppendLine(message);
-                        msg.Message = msgString.ToString();
-                    }
-                    else
-                    {
-                        vm.Messages.Add(new ChatMessageViewModel
-                        {
-                            SenderName = sender,
-                            Message = new StringBuilder().AppendLine(message).ToString()
-                        });
-                    }
-                });
             }
         }
 
         #region Event Handling
-
-        private void ChannelOnUserLeft(object sender, IrcChannelUserEventArgs e)
-        {
-            if (sender is IrcChannel channel)
-            {
-                if (e.ChannelUser.User == _client.LocalUser)
-                {
-                    ClientOnLeftChannel(channel);
-                }
-                else
-                {
-                    if (_userPanelInstances.TryGetValue(channel, out var vm))
-                    {
-                        ExecuteOnUiThread(() =>
-                        {
-                            var userVm =
-                                vm.ConnectedUsers.FirstOrDefault(u => u.Nickname.Equals(e.ChannelUser.User.NickName));
-                            if (userVm != null)
-                            {
-                                vm.ConnectedUsers.Remove(userVm);
-                            }
-                        });
-                    }
-
-                    if (_channelBoxInstances.TryGetValue(channel, out var chatVm))
-                    {
-                        ExecuteOnUiThread(() =>
-                        {
-                            chatVm.Messages.Add(new NoticeViewModel
-                            {
-                                Notice = $"{e.ChannelUser.User.NickName} left the channel.",
-                                ReceivedAt = DateTime.Now
-                            });
-                        });
-                    }
-                }
-            }
-        }
-
-        private void ChannelOnUserJoined(object sender, IrcChannelUserEventArgs e)
-        {
-            if (sender is IrcChannel channel)
-            {
-                if (_userPanelInstances.TryGetValue(channel, out var userVm))
-                {
-                    ExecuteOnUiThread(() =>
-                    {
-                        userVm.ConnectedUsers.Add(
-                            new UserInfoBoxViewModel
-                            {
-                                Nickname = e.ChannelUser.User.NickName
-                            });
-                    });
-                }
-
-                if (_channelBoxInstances.TryGetValue(channel, out var chatVm))
-                {
-                    ExecuteOnUiThread(() =>
-                    {
-                        chatVm.Messages.Add(new NoticeViewModel
-                        {
-                            Notice = $"{e.ChannelUser.User.NickName} joined the channel."
-                        });
-                    });
-                }
-            }
-        }
-
-        private void ChannelOnNoticeReceived(object sender, IrcMessageEventArgs e)
-        {
-            if (sender is IrcChannel channel)
-            {
-                if (_channelBoxInstances.TryGetValue(channel, out var vm))
-                {
-                    ExecuteOnUiThread(() =>
-                    {
-                        vm.Messages.Add(new NoticeViewModel
-                        {
-                            Notice = e.Text
-                        });
-                    });
-                }
-            }
-        }
-
-        private void ChannelOnUsersListReceived(object sender, EventArgs e)
-        {
-            if (sender is IrcChannel channel)
-            {
-                if (_userPanelInstances.TryGetValue(channel, out var vm))
-                {
-                    ExecuteOnUiThread(() =>
-                    {
-                        var users = channel.Users.Select(u => new UserInfoBoxViewModel
-                        {
-                            Nickname = u.User.NickName
-                        });
-                        vm.ConnectedUsers.Clear();
-                        vm.ConnectedUsers.AddRange(users);
-                    });
-                }
-            }
-        }
-
-        private void ChannelOnMessageReceived(object sender, IrcMessageEventArgs e)
-        {
-            if (sender is IrcChannel channel)
-            {
-                AddChatMessage(channel, e.Source.Name, e.Text);
-            }
-        }
-
-        private void ChannelOnModesChanged(object sender, IrcUserEventArgs e)
-        {
-            if (sender is IrcChannel channel)
-            {
-                if (channel.Modes.Count == 0)
-                    return;
-
-                var modes = string.Join(' ', channel.Modes);
-                ExecuteOnUiThread(() =>
-                {
-                    if (_channelBoxInstances.TryGetValue(channel, out var vm))
-                    {
-                        vm.Messages.Add(new NoticeViewModel
-                        {
-                            Notice = $"The channel modes have been changed to: {modes}"
-                        });
-                    }
-                });
-            }
-        }
-
         private void ClientOnJoinedChannel(IrcChannel channel)
         {
             if (_channelBoxInstances.ContainsKey(channel) || _userPanelInstances.ContainsKey(channel))
                 return;
 
-            _channelBoxInstances.Add(channel, new ChannelMessageBoxViewModel());
-            _userPanelInstances.Add(channel, new UsersPanelViewModel());
-
-            channel.MessageReceived += ChannelOnMessageReceived;
-            channel.NoticeReceived += ChannelOnNoticeReceived;
-            channel.UserJoined += ChannelOnUserJoined;
-            channel.UserLeft += ChannelOnUserLeft;
-            channel.UserKicked += ChannelOnUserLeft;
-            channel.UsersListReceived += ChannelOnUsersListReceived;
-            channel.ModesChanged += ChannelOnModesChanged;
-            channel.TopicChanged += ChannelOnTopicChanged;
-        }
-
-        private void ChannelOnTopicChanged(object sender, IrcUserEventArgs e)
-        {
-            ExecuteOnUiThread(() =>
-            {
-                if (sender is IrcChannel channel)
-                {
-                    if (_channelBoxInstances.TryGetValue(channel, out var vm))
-                    {
-                        var topicMsg = channel.Topic ?? "No topic.";
-                        vm.Messages.Add(new NoticeViewModel
-                        {
-                            Notice = $"Channel topic: {topicMsg}"
-                        });
-                    }
-                }
-            });
+            _channelBoxInstances.Add(channel, new ChannelMessageBoxViewModel(channel));
+            _userPanelInstances.Add(channel, new UsersPanelViewModel(channel));
         }
 
         private void ClientOnLeftChannel(IrcChannel channel)
@@ -291,14 +106,6 @@ namespace FluidIrc.ViewModels
             {
                 _channelBoxInstances.Remove(channel);
             }
-
-            channel.MessageReceived -= ChannelOnMessageReceived;
-            channel.NoticeReceived -= ChannelOnNoticeReceived;
-            channel.UserJoined -= ChannelOnUserJoined;
-            channel.UserLeft -= ChannelOnUserLeft;
-            channel.UserKicked -= ChannelOnUserLeft;
-            channel.UsersListReceived -= ChannelOnUsersListReceived;
-            channel.ModesChanged -= ChannelOnModesChanged;
 
             if (_currentChannel != null && _currentChannel.Equals(channel))
             {
@@ -394,12 +201,12 @@ namespace FluidIrc.ViewModels
             {
                 if (!_channelBoxInstances.ContainsKey(channel))
                 {
-                    _channelBoxInstances.Add(channel, new ChannelMessageBoxViewModel());
+                    _channelBoxInstances.Add(channel, new ChannelMessageBoxViewModel(channel));
                 }
 
                 if (!_userPanelInstances.ContainsKey(channel))
                 {
-                    _userPanelInstances.Add(channel, new UsersPanelViewModel());
+                    _userPanelInstances.Add(channel, new UsersPanelViewModel(channel));
                 }
 
                 if (_channelBoxInstances.TryGetValue(channel, out var channelVm))

@@ -19,17 +19,15 @@
         </Grid.ColumnDefinitions>
 
         <AutoSuggestBox Grid.Column="0"
-                        Name="InputCommandBox"
-                        PlaceholderText="Type in your message... (Enter to send)">
+                        PlaceholderText="Type in your message... (Enter to send)"
+                        Text="{Binding CommandText, Mode=TwoWay}">
             <AutoSuggestBox.QueryIcon>
                 <SymbolIcon Symbol="Send"/>
             </AutoSuggestBox.QueryIcon>
             <interactivity:Interaction.Behaviors>
                 <core:EventTriggerBehavior EventName="QuerySubmitted">
                     <core:InvokeCommandAction
-                        Command="{Binding SendCommand}"
-                        CommandParameter="{Binding Text, ElementName=InputCommandBox}"/>
-                    <core:ChangePropertyAction PropertyName="Text" Value=""/>
+                        Command="{Binding SendCommand}"/>
                 </core:EventTriggerBehavior>
             </interactivity:Interaction.Behaviors>
         </AutoSuggestBox>

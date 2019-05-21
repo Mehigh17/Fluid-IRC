@@ -161,6 +161,7 @@
     <Compile Include="ViewModels\HomePageViewModel.cs" />
     <Compile Include="ViewModels\InputServerBoxViewModel.cs" />
     <Compile Include="ViewModels\MessageBarViewModel.cs" />
+    <Compile Include="ViewModels\MessageBoxViewModel.cs" />
     <Compile Include="ViewModels\Navigation\NavigationChannelViewModel.cs" />
     <Compile Include="ViewModels\Navigation\NavigationGotoItemViewModel.cs" />
     <Compile Include="ViewModels\Navigation\NavigationHeaderViewModel.cs" />
