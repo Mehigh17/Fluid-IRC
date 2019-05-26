@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="FluidIrc.Controls.MessageBar"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -20,14 +20,18 @@
 
         <AutoSuggestBox Grid.Column="0"
                         PlaceholderText="Type in your message... (Enter to send)"
-                        Text="{Binding CommandText, Mode=TwoWay}">
+                        Name="InputBox">
             <AutoSuggestBox.QueryIcon>
                 <SymbolIcon Symbol="Send"/>
             </AutoSuggestBox.QueryIcon>
             <interactivity:Interaction.Behaviors>
                 <core:EventTriggerBehavior EventName="QuerySubmitted">
                     <core:InvokeCommandAction
-                        Command="{Binding SendCommand}"/>
+                        Command="{Binding SendCommand}"
+                        CommandParameter="{Binding ElementName=InputBox, Path=Text}"/>
+                    <core:ChangePropertyAction TargetObject="{Binding ElementName=InputBox}"
+                                               PropertyName="Text"
+                                               Value=""/>
                 </core:EventTriggerBehavior>
             </interactivity:Interaction.Behaviors>
         </AutoSuggestBox>
