@@ -1,4 +1,5 @@
 ﻿using FluidIrc.Events;
+using FluidIrc.Services;
 using IrcDotNet;
 using IrcDotNet.Collections;
 using Prism.Commands;
@@ -18,13 +19,15 @@ namespace FluidIrc.ViewModels
         public IrcChannel Channel { get; }
 
         private readonly IEventAggregator _eventAggregator;
+        private readonly IIrcClient _ircClient;
 
         private readonly UserMutedEvent _userMutedEvent;
         private readonly UserUnmutedEvent _userUnmutedEvent;
 
-        public UsersPanelViewModel(IrcChannel channel, IEventAggregator eventAggregator)
+        public UsersPanelViewModel(IrcChannel channel, IEventAggregator eventAggregator, IIrcClient ircClient)
         {
             _eventAggregator = eventAggregator ?? throw new ArgumentNullException(nameof(eventAggregator));
+            _ircClient = ircClient ?? throw new ArgumentNullException(nameof(ircClient)); ;
             _userMutedEvent = _eventAggregator.GetEvent<UserMutedEvent>();
             _userUnmutedEvent = _eventAggregator.GetEvent<UserUnmutedEvent>();
 
@@ -104,7 +107,7 @@ namespace FluidIrc.ViewModels
                 }),
                 WhoisCommand = new DelegateCommand<UserInfoBoxViewModel>(v =>
                 {
-
+                    _ircClient.SendCommand("whois", v.Nickname);
                 })
             };
         }

@@ -96,7 +96,7 @@ namespace FluidIrc.ViewModels
                 return;
 
             _channelBoxInstances.Add(channel, new ChannelMessageBoxViewModel(channel, _eventAggregator));
-            _userPanelInstances.Add(channel, new UsersPanelViewModel(channel, _eventAggregator));
+            _userPanelInstances.Add(channel, new UsersPanelViewModel(channel, _eventAggregator, _client));
         }
 
         private void ClientOnLeftChannel(IrcChannel channel)
@@ -210,7 +210,7 @@ namespace FluidIrc.ViewModels
 
                 if (!_userPanelInstances.ContainsKey(channel))
                 {
-                    _userPanelInstances.Add(channel, new UsersPanelViewModel(channel, _eventAggregator));
+                    _userPanelInstances.Add(channel, new UsersPanelViewModel(channel, _eventAggregator, _client));
                 }
 
                 if (_channelBoxInstances.TryGetValue(channel, out var channelVm))
