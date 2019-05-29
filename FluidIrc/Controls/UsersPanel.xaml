@@ -4,6 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:FluidIrc.Controls"
     xmlns:vm="using:FluidIrc.ViewModels"
     mc:Ignorable="d"
     d:DesignHeight="600"
@@ -15,12 +16,12 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Connected Users" HorizontalAlignment="Center" Margin="3" FontSize="20" />
+        <TextBlock Text="Connected Users" HorizontalAlignment="Center" Margin="3" FontSize="20"/>
 
         <ListView Grid.Row="1" ItemsSource="{Binding ConnectedUsers}">
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="x:String">
-                    <TextBlock Text="{x:Bind}"/>
+                <DataTemplate x:DataType="vm:UserInfoBoxViewModel">
+                    <controls:UserInfoBox DataContext="{x:Bind}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

@@ -18,7 +18,7 @@ namespace FluidIrc.ViewModels
     {
 
         public ObservableCollection<ServerCardViewModel> ServerCards { get; set; } = new ObservableCollection<ServerCardViewModel>();
-        public ChannelMessageBoxViewModel ChannelMessageBoxViewModel { get; set; } = new ChannelMessageBoxViewModel();
+        public MessageBoxViewModel ChannelMessageBoxViewModel { get; set; } = new MessageBoxViewModel();
         public MessageBarViewModel MessageBarViewModel { get; set; } = new MessageBarViewModel();
 
         private bool _showProgress;
@@ -46,7 +46,7 @@ namespace FluidIrc.ViewModels
             _client.ProtocolError += ClientOnProtocolError;
 
             ShowProgress = false;
-            MessageBarViewModel.SendCommand = new DelegateCommand(SendCommand);
+            MessageBarViewModel.SendCommand = new DelegateCommand<string>(SendCommand);
         }
 
         private void ClientOnDisconnected(object sender, EventArgs e)
@@ -136,19 +136,17 @@ namespace FluidIrc.ViewModels
             });
         }
 
-        private void SendCommand()
+        private void SendCommand(string command)
         {
             ExecuteOnUiThread(() =>
             {
-                var msg = MessageBarViewModel.CommandText;
-                if (!string.IsNullOrEmpty(msg))
+                if (!string.IsNullOrEmpty(command))
                 {
-                    var cmdArgs = msg.Split(' ');
+                    var cmdArgs = command.Split(' ');
                     if (cmdArgs[0].StartsWith("/"))
                         cmdArgs[0] = cmdArgs[0].Remove(0, 1);
 
                     _client.SendCommand(cmdArgs[0], cmdArgs.Skip(1).ToArray());
-                    MessageBarViewModel.CommandText = string.Empty;
                 }
             });
         }

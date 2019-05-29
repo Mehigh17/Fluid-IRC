@@ -19,8 +19,8 @@ namespace FluidIrc.ViewModels
 
         public AppShellViewModel(IIrcClient client, INavigationService navigationService)
         {
-            _navigationService = navigationService;
-            _client = client;
+            _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
+            _client = client ?? throw new ArgumentNullException(nameof(client));
             
             _client.Connected += ClientOnConnected;
             _client.Disconnected += ClientOnDisconnected;

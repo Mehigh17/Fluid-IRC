@@ -1,0 +1,40 @@
+﻿<UserControl
+    x:Class="FluidIrc.Controls.UserInfoBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:FluidIrc.ViewModels"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance vm:UserInfoBoxViewModel}"
+    d:DesignHeight="75"
+    d:DesignWidth="300">
+    <UserControl.ContextFlyout>
+        <MenuFlyout>
+            <MenuFlyoutItem Text="Ignore" Command="{Binding IgnoreCommand}" CommandParameter="{Binding}">
+                <MenuFlyoutItem.Icon>
+                    <SymbolIcon Symbol="BlockContact"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="Who is" Command="{Binding WhoisCommand}" CommandParameter="{Binding}">
+                <MenuFlyoutItem.Icon>
+                    <SymbolIcon Symbol="ContactInfo"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+        </MenuFlyout>
+    </UserControl.ContextFlyout>
+    <Grid>
+        <TextBlock Text="{Binding Nickname}">
+            <i:Interaction.Behaviors>
+                <core:DataTriggerBehavior Binding="{Binding IsMuted}" Value="True" ComparisonCondition="Equal">
+                    <core:ChangePropertyAction PropertyName="Foreground" Value="Red"/>
+                </core:DataTriggerBehavior>
+                <core:DataTriggerBehavior Binding="{Binding IsMuted}" Value="False" ComparisonCondition="Equal">
+                    <core:ChangePropertyAction PropertyName="Foreground" Value="White"/>
+                </core:DataTriggerBehavior>
+            </i:Interaction.Behaviors>
+        </TextBlock>
+    </Grid>
+</UserControl>

@@ -51,6 +51,7 @@
                         ItemInvoked="NavigationView_OnItemInvoked"
                         IsBackButtonVisible="Collapsed"
                         IsBackEnabled="False"
+                        IsSettingsVisible="False"
                         Background="{ThemeResource SystemControlBackgroundAccentBrush}">
 
             <Frame x:Name="ContentFrame" />
