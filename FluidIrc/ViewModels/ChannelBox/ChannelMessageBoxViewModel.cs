@@ -1,5 +1,8 @@
-﻿using IrcDotNet;
+﻿using FluidIrc.Events;
+using IrcDotNet;
+using Prism.Events;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -10,9 +13,13 @@ namespace FluidIrc.ViewModels.ChannelBox
 
         public IrcChannel Channel { get; }
 
-        public ChannelMessageBoxViewModel(IrcChannel channel)
+        private IEventAggregator _eventAggregator;
+        private readonly List<IrcUser> _mutedUsers = new List<IrcUser>();
+
+        public ChannelMessageBoxViewModel(IrcChannel channel, IEventAggregator eventAggregator)
         {
             Channel = channel ?? throw new ArgumentException(nameof(channel));
+            _eventAggregator = eventAggregator ?? throw new ArgumentException(nameof(eventAggregator)); ;
 
             channel.UserJoined += ChannelOnUserJoined;
             channel.MessageReceived += ChannelOnMessageReceived;
@@ -21,6 +28,21 @@ namespace FluidIrc.ViewModels.ChannelBox
             channel.UserKicked += ChannelOnUserKicked;
             channel.ModesChanged += ChannelOnModesChanged;
             channel.TopicChanged += ChannelOnTopicChanged;
+
+            _eventAggregator.GetEvent<UserMutedEvent>().Subscribe((args) =>
+            {
+                if (!_mutedUsers.Contains(args.User))
+                {
+                    _mutedUsers.Add(args.User);
+                }
+            });
+            _eventAggregator.GetEvent<UserUnmutedEvent>().Subscribe((args) =>
+            {
+                if (_mutedUsers.Contains(args.User))
+                {
+                    _mutedUsers.Remove(args.User);
+                }
+            });
         }
 
         public void AddUserMessage(string nickname, string message)
@@ -111,10 +133,13 @@ namespace FluidIrc.ViewModels.ChannelBox
 
         private void ChannelOnMessageReceived(object sender, IrcMessageEventArgs e)
         {
-            ExecuteOnUiThread(() =>
+            if (_mutedUsers.FirstOrDefault(u => u.NickName.Equals(e.Source.Name)) == null)
             {
-                AddUserMessage(e.Source.Name, e.Text);
-            });
+                ExecuteOnUiThread(() =>
+                {
+                    AddUserMessage(e.Source.Name, e.Text);
+                });
+            }
         }
 
         private void ChannelOnUserJoined(object sender, IrcChannelUserEventArgs e)

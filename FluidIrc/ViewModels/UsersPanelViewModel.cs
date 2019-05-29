@@ -1,6 +1,8 @@
-﻿using IrcDotNet;
+﻿using FluidIrc.Events;
+using IrcDotNet;
 using IrcDotNet.Collections;
 using Prism.Commands;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,8 +17,17 @@ namespace FluidIrc.ViewModels
         public ObservableCollection<UserInfoBoxViewModel> ConnectedUsers { get; set; } = new ObservableCollection<UserInfoBoxViewModel>();
         public IrcChannel Channel { get; }
 
-        public UsersPanelViewModel(IrcChannel channel)
+        private readonly IEventAggregator _eventAggregator;
+
+        private readonly UserMutedEvent _userMutedEvent;
+        private readonly UserUnmutedEvent _userUnmutedEvent;
+
+        public UsersPanelViewModel(IrcChannel channel, IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator ?? throw new ArgumentNullException(nameof(eventAggregator));
+            _userMutedEvent = _eventAggregator.GetEvent<UserMutedEvent>();
+            _userUnmutedEvent = _eventAggregator.GetEvent<UserUnmutedEvent>();
+
             Channel = channel ?? throw new ArgumentException(nameof(channel));
             ConnectedUsers.CollectionChanged += ConnectedUsersOnCollectionChanged;
 
@@ -73,12 +84,24 @@ namespace FluidIrc.ViewModels
             }
         }
 
-        private static UserInfoBoxViewModel GetUserViewModel(IrcUser user)
+        private UserInfoBoxViewModel GetUserViewModel(IrcUser user)
         {
             return new UserInfoBoxViewModel(user)
             {
                 Nickname = user.NickName,
-                IgnoreCommand = new DelegateCommand<UserInfoBoxViewModel>(v => { v.IsMuted = !v.IsMuted; }),
+                IgnoreCommand = new DelegateCommand<UserInfoBoxViewModel>(v =>
+                {
+                    if (v.IsMuted)
+                    {
+                        _userUnmutedEvent.Publish(new UserUnmutedArgs(user));
+                    }
+                    else
+                    {
+                        _userMutedEvent.Publish(new UserMutedEventArgs(user));
+                    }
+
+                    v.IsMuted = !v.IsMuted;
+                }),
                 WhoisCommand = new DelegateCommand<UserInfoBoxViewModel>(v =>
                 {
 

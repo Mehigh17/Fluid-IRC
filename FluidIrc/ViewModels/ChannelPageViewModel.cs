@@ -2,6 +2,7 @@
 using FluidIrc.ViewModels.ChannelBox;
 using IrcDotNet;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Windows.Navigation;
 using System;
 using System.Collections.Generic;
@@ -42,14 +43,17 @@ namespace FluidIrc.ViewModels
 
         private readonly INavigationService _navService;
         private readonly IIrcClient _client;
+        private readonly IEventAggregator _eventAggregator;
         private IrcChannel _currentChannel;
 
         public string CurrentChannelName => _currentChannel.Name;
 
-        public ChannelPageViewModel(INavigationService navService, IIrcClient client)
+        public ChannelPageViewModel(INavigationService navService, IIrcClient client, IEventAggregator eventAggregator)
         {
             _navService = navService;
             _client = client;
+            _eventAggregator = eventAggregator;
+
             _client.Disconnected += ClientOnDisconnected;
             _client.JoinedChannel += ClientOnJoinedChannel;
             _client.LeftChannel += ClientOnLeftChannel;
@@ -91,8 +95,8 @@ namespace FluidIrc.ViewModels
             if (_channelBoxInstances.ContainsKey(channel) || _userPanelInstances.ContainsKey(channel))
                 return;
 
-            _channelBoxInstances.Add(channel, new ChannelMessageBoxViewModel(channel));
-            _userPanelInstances.Add(channel, new UsersPanelViewModel(channel));
+            _channelBoxInstances.Add(channel, new ChannelMessageBoxViewModel(channel, _eventAggregator));
+            _userPanelInstances.Add(channel, new UsersPanelViewModel(channel, _eventAggregator));
         }
 
         private void ClientOnLeftChannel(IrcChannel channel)
@@ -201,12 +205,12 @@ namespace FluidIrc.ViewModels
             {
                 if (!_channelBoxInstances.ContainsKey(channel))
                 {
-                    _channelBoxInstances.Add(channel, new ChannelMessageBoxViewModel(channel));
+                    _channelBoxInstances.Add(channel, new ChannelMessageBoxViewModel(channel, _eventAggregator));
                 }
 
                 if (!_userPanelInstances.ContainsKey(channel))
                 {
-                    _userPanelInstances.Add(channel, new UsersPanelViewModel(channel));
+                    _userPanelInstances.Add(channel, new UsersPanelViewModel(channel, _eventAggregator));
                 }
 
                 if (_channelBoxInstances.TryGetValue(channel, out var channelVm))
