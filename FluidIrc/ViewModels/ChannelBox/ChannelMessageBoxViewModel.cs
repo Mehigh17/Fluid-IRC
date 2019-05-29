@@ -47,18 +47,20 @@ namespace FluidIrc.ViewModels.ChannelBox
 
         public void AddUserMessage(string nickname, string message)
         {
+            var msgBuilder = new StringBuilder();
             if (Messages.Count > 0 && Messages.Last() is ChatMessageViewModel vm && vm.SenderName.Equals(nickname))
             {
-                var msgBuilder = new StringBuilder(vm.Message);
+                msgBuilder = new StringBuilder(vm.Message);
                 msgBuilder.AppendLine(message);
                 vm.Message = msgBuilder.ToString();
             }
             else
             {
+                msgBuilder.AppendLine(message);
                 Messages.Add(new ChatMessageViewModel
                 {
                     SenderName = nickname,
-                    Message = message,
+                    Message = msgBuilder.ToString(),
                     ReceivedAt = DateTime.Now
                 });
             }
