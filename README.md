@@ -31,7 +31,7 @@ Its current state is still very raw offering very little features of the IRC wor
 ## Features
 
 * Responsive interface
-* Scalable UI
+* Responsive UI
 * Multi channel support
 * Persistent server & user profile storage
 * User profile configurable per server
